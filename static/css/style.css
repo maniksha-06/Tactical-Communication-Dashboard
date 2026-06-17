@@ -1,0 +1,279 @@
+:root{
+    --bg:#1b1f17;
+    --panel:#2c3427;
+    --card:#394331;
+    --border:#556b4d;
+    --accent:#7a9b5a;
+    --text:#f1f1e6;
+}
+
+.clock{
+    text-align:center;
+    font-size:32px;
+    color:var(--text);
+    margin-bottom:25px;
+    font-weight:bold;
+}
+
+.clock{
+    text-align:center;
+    margin-bottom:25px;
+    color:var(--text);
+    font-size:28px;
+    font-weight:bold;
+}
+.intel-panel {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #39ff14;
+    border-radius: 15px;
+    background: rgba(0, 20, 0, 0.7);
+}
+
+.intel-panel h2 {
+    color: #39ff14;
+    margin-bottom: 15px;
+}
+
+.brief-card {
+    background: rgba(20, 40, 20, 0.8);
+    border-left: 4px solid #39ff14;
+    padding: 12px;
+    margin-bottom: 10px;
+    border-radius: 8px;
+}
+
+.brief-card h3 {
+    color: #ffffff;
+    margin-bottom: 5px;
+}
+
+.brief-card p {
+    color: #cccccc;
+}
+.base-hq{
+    position:absolute;
+    top:170px;
+    left:50%;
+
+    background:#00aaff;
+    color:white;
+
+    padding:8px 12px;
+    border-radius:8px;
+
+    font-weight:bold;
+    font-size:12px;
+
+    box-shadow:0 0 15px #00aaff;
+}
+.ai-panel{
+    margin:20px 30px;
+    padding:20px;
+    border:1px solid #00ff99;
+    border-radius:15px;
+    background:#0f1f17;
+    box-shadow:0 0 15px rgba(0,255,153,0.3);
+}
+
+.ai-panel h2{
+    color:#00ff99;
+}
+.intel-feed{
+    margin:20px 30px;
+    padding:20px;
+    border:1px solid #00ff99;
+    border-radius:15px;
+    background:#0f1f17;
+}
+
+#intel-log{
+    color:#ffffff;
+    font-size:16px;
+    margin-top:10px;
+}
+.chatbot-panel{
+    margin:20px 30px;
+    padding:20px;
+    border:1px solid #00ff99;
+    border-radius:15px;
+    background:#0f1f17;
+}
+
+#chat-box{
+    height:120px;
+    overflow-y:auto;
+    border:1px solid #00ff99;
+    padding:10px;
+    margin-bottom:10px;
+}
+.tactical-map{
+    position:relative;
+    width:100%;
+    height:500px;
+    background-image: url("/static/images/india-map.jpg");
+background-size: cover;
+background-repeat: no-repeat;
+background-position: center;
+background-color: #101510;
+    border:2px solid #4CAF50;
+    border-radius:15px;
+    margin-top:20px;
+    overflow:hidden;
+}
+
+
+.tactical-map::before{
+    content:none;
+    position:absolute;
+    width:100%;
+    height:100%;
+    background-image:
+        linear-gradient(rgba(0,255,0,0.08) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(0,255,0,0.08) 1px, transparent 1px);
+    background-size:40px 40px;
+}
+
+.sector{
+    display:none;
+}
+
+.alpha-sector{
+    top:40px;
+    left:50px;
+    width:250px;
+    height:180px;
+}
+
+.bravo-sector{
+    top:40px;
+    right:50px;
+    width:250px;
+    height:180px;
+}
+
+.charlie-sector{
+    bottom:40px;
+    left:50px;
+    width:250px;
+    height:180px;
+}
+
+.unit{
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    font-weight:bold;
+    position:absolute;
+    z-index:10;
+}
+
+.alpha-unit,
+.bravo-unit,
+.charlie-unit{
+    width:18px;
+    height:18px;
+    border-radius:50%;
+    position:absolute;
+    box-shadow:0 0 15px currentColor;
+}
+.alpha-unit{
+    background:#00ff88;
+    color:#00ff88;
+    top:250px;
+    left:560px;
+}
+
+.bravo-unit{
+    background:#00bfff;
+    color:#00bfff;
+    top:160px;
+    right:180px;
+}
+
+.charlie-unit{
+    background:#ffd700;
+    color:#ffd700;
+    top:420px;
+    left:860px;
+}
+
+.base-hq{
+    position:absolute;
+
+    top:180px;
+    left:52%;
+    transform:translateX(-50%);
+
+    background:#00ffff;
+    color:black;
+
+    padding:12px 20px;
+    border-radius:10px;
+
+    font-weight:bold;
+
+    box-shadow:0 0 20px cyan;
+
+    z-index:10;
+}
+
+.threat-zone{
+    position:absolute;
+    top:220px;
+    right:80px;
+
+    width:180px;
+    height:180px;
+
+    border:3px solid red;
+    background:rgba(255,0,0,0.15);
+
+    color:red;
+    font-weight:bold;
+
+    display:flex;
+    justify-content:center;
+    align-items:center;
+
+    box-shadow:0 0 20px red;
+
+    z-index:10;
+}
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.1);
+    }
+    100%{
+        transform:scale(1);
+    }
+}
+.alpha-label{
+    position:absolute;
+    top:260px;
+    left:420px;
+    color:#00ff99;
+    font-weight:bold;
+}
+
+.bravo-label{
+    position:absolute;
+    top:140px;
+    right:120px;
+    color:#00ff99;
+    font-weight:bold;
+}
+
+.charlie-label{
+    position:absolute;
+    top:420px;
+    left:650px;
+    color:#00ff99;
+    font-weight:bold;
+}

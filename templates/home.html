@@ -1,0 +1,457 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link rel="stylesheet"
+href="https://unpkg.com/leaflet/dist/leaflet.css"/>
+
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tactical Communication Dashboard</title>
+
+    <style>
+
+        body{
+            margin:0;
+            padding:0;
+            background-color:#081b12;
+            color:#00ff99;
+            font-family:Arial, sans-serif;
+        }
+
+        .header{
+            background:#0f2d1f;
+            padding:20px;
+            text-align:center;
+            font-size:32px;
+            font-weight:bold;
+            border-bottom:2px solid #00ff99;
+            letter-spacing:2px;
+            position:relative;
+        }
+
+        .dashboard{
+            display:grid;
+            grid-template-columns:repeat(3,1fr);
+            gap:20px;
+            padding:30px;
+        }
+
+        .card{
+            background:#10281d;
+            padding:25px;
+            border-radius:15px;
+            border:1px solid #00ff99;
+            box-shadow:0 0 15px rgba(0,255,153,0.3);
+            transition:0.3s;
+        }
+
+        .card:hover{
+            transform:scale(1.03);
+            box-shadow:0 0 25px rgba(0,255,153,0.6);
+        }
+
+        .card h2{
+            margin-bottom:15px;
+            font-size:24px;
+        }
+
+        .status{
+            font-size:28px;
+            font-weight:bold;
+        }
+
+        .online{
+            color:#00ff99;
+        }
+
+        .warning{
+            color:orange;
+        }
+
+        .danger{
+            color:red;
+        }
+.alert-panel{
+    margin:20px 30px;
+    padding:20px;
+    border:1px solid #00ff99;
+    border-radius:15px;
+    background:#0f1f17;
+    box-shadow:0 0 20px rgba(0,255,153,0.3);
+}
+
+.alert-panel h2{
+    margin-bottom:15px;
+    color:#00ff99;
+}
+
+.alert-message{
+    font-size:22px;
+    font-weight:bold;
+    color:orange;
+    animation:blink 1s infinite;
+}
+
+@keyframes blink{
+    50%{
+        opacity:0.5;
+    }
+}
+.radar-container{
+    display:flex;
+    justify-content:center;
+    margin-top:30px;
+}
+
+.radar{
+    position:relative;
+    width:220px;
+    height:220px;
+    border-radius:50%;
+    border:3px solid #00ff99;
+    background:rgba(0,255,153,0.05);
+    overflow:hidden;
+    box-shadow:0 0 30px rgba(0,255,153,0.5);
+}
+
+.radar::before,
+.radar::after{
+    content:'';
+    position:absolute;
+    background:#00ff99;
+}
+
+.radar::before{
+    width:2px;
+    height:100%;
+    left:50%;
+    top:0;
+}
+
+.radar::after{
+    height:2px;
+    width:100%;
+    left:0;
+    top:50%;
+}
+
+.sweep{
+    position:absolute;
+    width:50%;
+    height:2px;
+    background:#00ff99;
+    top:50%;
+    left:50%;
+    transform-origin:left center;
+    animation:rotate 2s linear infinite;
+    box-shadow:0 0 20px #00ff99;
+}
+
+@keyframes rotate{
+    from{
+        transform:rotate(0deg);
+    }
+
+    to{
+        transform:rotate(360deg);
+    }
+}
+.logout-btn{
+
+    position:absolute;
+    right:30px;
+    top:20px;
+
+    text-decoration:none;
+    color:black;
+    background:#00ff99;
+
+    padding:10px 18px;
+
+    border-radius:10px;
+
+    font-size:16px;
+    font-weight:bold;
+
+    transition:0.3s;
+}
+
+.logout-btn:hover{
+
+    background:#00cc77;
+
+    box-shadow:0 0 20px #00ff99;
+}
+.map-panel{
+    margin:20px 30px;
+    padding:20px;
+    border:1px solid #7a9b5a;
+    border-radius:15px;
+    background:#2c3427;
+    box-shadow:0 0 20px rgba(122,155,90,0.4);
+}
+
+.map-panel h2{
+    color:#f1f1e6;
+    margin-bottom:15px;
+}
+
+.map-box{
+    position:relative;
+    height:300px;
+    border-radius:10px;
+    background:
+    linear-gradient(rgba(122,155,90,0.15) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(122,155,90,0.15) 1px, transparent 1px);
+    background-size:30px 30px;
+    border:1px solid #556b4d;
+}
+.danger-zone{
+    position:absolute;
+    width:120px;
+    height:120px;
+
+    top:80px;
+    right:50px;
+
+    background:rgba(255,0,0,0.25);
+    border:2px solid red;
+    border-radius:10px;
+
+    box-shadow:0 0 20px red;
+}
+.unit{
+    position:absolute;
+    width:40px;
+    height:40px;
+    border-radius:50%;
+    background:#7a9b5a;
+    color:black;
+    font-weight:bold;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    box-shadow:0 0 15px #7a9b5a;
+    animation:pulse 2s infinite;
+}
+
+.unit1{
+    top:50px;
+    left:80px;
+}
+
+.unit2{
+    top:150px;
+    left:250px;
+    transition: all 2s ease;
+}
+
+.unit3{
+    top:90px;
+    left:500px;
+    
+}
+@keyframes pulse{
+    0%{
+        transform:scale(1);
+    }
+    50%{
+        transform:scale(1.2);
+    }
+    100%{
+        transform:scale(1);
+    }
+}
+        .footer{
+            text-align:center;
+            padding:20px;
+            color:#8affc1;
+        }
+
+    </style>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+</head>
+
+<body>
+
+    <div class="header">
+
+    TACTICAL COMMUNICATION SURVEILLANCE DASHBOARD
+
+    <a href="/logout" class="logout-btn">
+        LOGOUT
+    </a>
+
+</div>
+    <div class="clock" id="clock">
+        00:00:00
+    </div>
+<div class="radar-container">
+
+    <div class="radar">
+
+        <div class="sweep"></div>
+
+    </div>
+
+</div>
+    <div class="dashboard">
+
+        <div class="card">
+            <h2>Signal Strength</h2>
+            <p id="signal-value">{{ signal_strength }}%</p>
+        </div>
+
+        <div class="card">
+            <h2>Secure Channel</h2>
+            <div class="status online">ACTIVE</div>
+        </div>
+
+        <div class="card">
+            <h2>Threat Detection</h2>
+            <p id="threat-value">{{ threat }}</p>
+        </div>
+
+        <div class="card">
+            <h2>Active Military Units</h2>
+            <div class="status online" id="units-value">
+                {{ active_units }} CONNECTED
+            </div>
+        </div>
+
+        <div class="card">
+            <h2>Satellite Link</h2>
+            <div class="status online">STABLE</div>
+        </div>
+
+        <div class="card">
+            <h2>Unauthorized Access</h2>
+            <div class="status danger" id="access-count">
+    0 DETECTED
+</div>
+        </div>
+
+    </div>
+   <div class="map-panel">
+    <h2>TACTICAL OPERATIONS MAP</h2>
+
+    <div id="map" style="height:500px;"></div>
+</div>
+    </div>
+
+   
+
+</div>
+    </div>
+
+</div>
+    <div class="alert-panel">
+
+    <h2>LIVE ALERT FEED</h2>
+
+    <div id="alert-box" class="alert-message">
+        Monitoring Secure Tactical Network...
+    </div>
+
+</div>
+<div class="ai-panel">
+    <h2>AI THREAT ANALYSIS</h2>
+<div class="intel-feed">
+    <h2>INTELLIGENCE UPDATES</h2>
+
+    <div id="intel-log">
+        Surveillance Drone Active...
+    </div>
+</div>
+    <p><strong>Threat Level:</strong> HIGH</p>
+    <p><strong>Nearest Unit:</strong> CHARLIE</p>
+    <p><strong>Base HQ Status:</strong> SECURE</p>
+    <p><strong>Recommendation:</strong> Deploy BRAVO for Reconnaissance</p>
+    <h3>🎯 Mission Objective</h3>
+
+<p><strong>Operation:</strong> Border Surveillance</p>
+
+<p><strong>Sector:</strong> Northern Border</p>
+
+<p><strong>Status:</strong> ACTIVE</p>
+
+<p><strong>Objective:</strong>
+Monitor suspicious activity and secure the border sector.
+</p>
+</div>
+
+<div class="intel-panel">
+    <h2>INTELLIGENCE BRIEFING</h2>
+
+    <div class="brief-card">
+        <h3>Defence Update</h3>
+        <p id="defence-update">Loading latest updates...</p>
+    </div>
+
+    <div class="brief-card">
+        <h3>Threat Assessment</h3>
+        <p id="threat-update">Monitoring active sectors...</p>
+    </div>
+
+    <div class="brief-card">
+        <h3>Mission Status</h3>
+        <p id="mission-update">All patrol units operational.</p>
+    </div>
+</div>
+    <div class="footer">
+        Defense Tactical Monitoring System • Real-Time Communication Surveillance
+    </div>
+        <script>
+    var map = L.map('map').setView([22.9734, 78.6569], 5);
+
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        attribution: 'OpenStreetMap'
+    }).addTo(map);
+
+    L.marker([28.6139, 77.2090])
+        .addTo(map)
+        .bindPopup('BASE HQ - New Delhi');
+
+    L.marker([26.9124, 75.7873])
+        .addTo(map)
+        .bindPopup('Western Command - Jaipur');
+
+    L.marker([26.1445, 91.7362])
+        .addTo(map)
+        .bindPopup('Eastern Command - Guwahati');
+
+    L.marker([12.9716, 77.5946])
+        .addTo(map)
+        .bindPopup('Southern Command - Bangalore');
+    L.circle([24.8, 92.7], {
+        color: 'red',
+        fillColor: '#ff0000',
+        fillOpacity: 0.3,
+        radius: 250000
+    })
+    .addTo(map)
+    .bindPopup('High Threat Zone');
+</script>
+
+    <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+
+<div class="chatbot-panel">
+    <h2>TACTICAL AI ASSISTANT</h2>
+
+    <div id="chat-box">
+        AI Assistant Ready...
+    </div>
+
+    <input type="text" id="user-input"
+           placeholder="Ask about threat status...">
+
+    <button onclick="sendMessage()">Send</button>
+</div>
+
+</body>
+</html>
